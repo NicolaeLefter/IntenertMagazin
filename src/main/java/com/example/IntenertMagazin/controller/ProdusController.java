@@ -1,9 +1,12 @@
 package com.example.IntenertMagazin.controller;
 
+import com.example.IntenertMagazin.dto.ProdusDTO;
 import com.example.IntenertMagazin.entity.Produs;
 import com.example.IntenertMagazin.exception.ProdusNotFoundException;
+import com.example.IntenertMagazin.exception.ProdusUpdateException;
 import com.example.IntenertMagazin.smartRepository.ProdusRepository;
 import com.example.IntenertMagazin.smartService.ProdusServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +34,12 @@ public class ProdusController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updateProdus(@RequestBody Produs produs,
-                                               @PathVariable int id) throws ProdusNotFoundException {
+    public ResponseEntity<Produs> updateProdus(@Valid @RequestBody ProdusDTO produsDTO,
+                                                  @PathVariable int id) throws ProdusNotFoundException, ProdusUpdateException {
 
-        return ResponseEntity.status(HttpStatus.OK).body(produsService.updateProduct(produs, id));
+       // return ResponseEntity.status(HttpStatus.OK).body(produsService.updateProduct(produs, id));
+
+        return ResponseEntity.ok(produsService.updateProduct(produsDTO,id));
     }
 
     @GetMapping("/get/all")

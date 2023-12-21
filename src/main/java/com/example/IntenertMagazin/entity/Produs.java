@@ -24,6 +24,26 @@ public class Produs {
     private String typeMemory;
     @Column(name = "id_store")
     private Integer idStore;
+
+    public Produs(Integer id){
+        this.id = id;
+    }
+
+    public Produs(){
+
+    }
+
+    public Produs(String denProdus, Categorie category, Double price, Boolean stoc, String ramMemory, String typeMemory, Integer idStore) {
+        this.denProdus = denProdus;
+        this.category = category;
+        this.price = price;
+        this.stoc = stoc;
+        this.ramMemory = ramMemory;
+        this.typeMemory = typeMemory;
+        this.idStore = idStore;
+
+    }
+
     public Integer getIdStore() {
         return idStore;
     }

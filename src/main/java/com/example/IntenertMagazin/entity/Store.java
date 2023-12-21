@@ -6,10 +6,11 @@ import jakarta.persistence.*;
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "den_store")
-    private String denStore;
     @Column(name = "id_store")
     private Integer idStore;
+
+    @Column(name = "den_store")
+    private String denStore;
     @Column(name = "adress")
     private String adress;
 

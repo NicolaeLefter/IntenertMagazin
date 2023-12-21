@@ -1,8 +1,10 @@
 package com.example.IntenertMagazin.smartService;
 
+import com.example.IntenertMagazin.dto.ProdusDTO;
 import com.example.IntenertMagazin.entity.Categorie;
 import com.example.IntenertMagazin.entity.Produs;
 import com.example.IntenertMagazin.exception.ProdusNotFoundException;
+import com.example.IntenertMagazin.exception.ProdusUpdateException;
 import com.example.IntenertMagazin.smartRepository.ProdusRepositoryPaginaited;
 import com.example.IntenertMagazin.smartRepository.ProdusRepository;
 import jakarta.transaction.Transactional;
@@ -22,36 +24,34 @@ public class ProdusServiceImpl {
     ProdusRepositoryPaginaited produsRepositoryPaginaited;
 
     @Transactional
-    public ResponseEntity<Object> updateProduct(Produs produs, int idProd) throws ProdusNotFoundException{
+    public Produs updateProduct(ProdusDTO produsDTO, int idProd) throws ProdusNotFoundException, ProdusUpdateException {
         Produs prod = produsRepository.findById(idProd).orElseThrow(() ->
                 new ProdusNotFoundException("Nu a fost gasit produsul cu id-ul: " + idProd));
-        Map<Object, String> map = new HashMap<>();
 
-        if (produs.getDenProdus().length() < 0) {
-            map.put(produs.getDenProdus(), "Denumirea produsului nu trebuie sa fie null!");
-            prod.setDenProdus(produs.getDenProdus());
-            if ((produs.getCategory() != Categorie.valueOf(produs.getCategory().name()))) {
-                map.put(produs.getCategory(), "Categoria produsului nu este inclusa in Enum Categroy!");
-                prod.setCategory(produs.getCategory());
-                if (produs.getPrice() <= 0) {
-                    map.put(produs.getPrice(), "Pretul produsului trebuie sa fie mai mare de 0!");
-                }
-                prod.setPrice(produs.getPrice());
-                prod.setStoc(produs.getStoc());
-                prod.setRamMemory(produs.getRamMemory());
-                if (produs.getTypeMemory().equals("HDD") || produs.getTypeMemory().equals("SSD")){
-                    prod.setTypeMmeory(prod.getTypeMemory());
-                }else {
-                    map.put(produs.getTypeMemory(), "Tipul memorie poate sa fie HDD sau SSD");
-                }
+         // if(produsDTO.getDenProdus() == null){
+             //  throw  new ProdusUpdateException("Denumirea produsului este obligatorie");
+          // }
+           prod.setDenProdus(produsDTO.getDenProdus());
+          // if (produsDTO.getCategory() == null) {
+               //throw new ProdusUpdateException("Categoria este obligatorie!");
+         //  }
+           prod.setCategory(produsDTO.getCategory());
 
-                if (!map.isEmpty()) {
-                    throw  new RuntimeException((Throwable) map);
-                }
+               // if (produsDTO.getPrice() <= 0) {
+                    //throw  new ProdusUpdateException("Pretul produsului trebuie sa fie mai mare sau egal cu 0!");
+              //  }
+                prod.setPrice(produsDTO.getPrice());
+                prod.setStoc(produsDTO.getStoc());
+                prod.setRamMemory(produsDTO.getRamMemory());
+             //   if (produsDTO.getTypeMemory().equals("HDD") || produsDTO.getTypeMemory().equals("SSD")){
+                  //  prod.setTypeMmeory(prod.getTypeMemory());
+            //    }else {
+              //      throw new ProdusUpdateException("Tipul memorie nu corespunde cerinteloe!");
+            //    }
+
                 produsRepository.save(prod);
-            }
-        }
-        return ResponseEntity.ok("Produsul a fost actualizat cu succes!");
+                //produsDTO.setIdProd(prod.getId());
+                return  prod;
     }
     public Page<Produs> getAll(Integer pageNumber, Integer size, String sortBy,
                                Boolean desc, Integer minPrice, Integer maxPrice){
