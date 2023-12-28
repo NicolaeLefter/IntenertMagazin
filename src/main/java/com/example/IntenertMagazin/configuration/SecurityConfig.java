@@ -13,27 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity //specificam logica de securitate
 public class SecurityConfig {
 
-  //Hello World
+  //Hello Wor
     @Bean
     public SecurityFilterChain security(HttpSecurity httpSecurity) throws Exception {
-      // httpSecurity.authorizeHttpRequests(authorize -> authorize
-                    //   .requestMatchers("/save").permitAll()
-              // .anyRequest().authenticated());
 
-
-
-     /*   httpSecurity
-                .authorizeHttpRequests()
-                .requestMatchers("/save").permitAll()
-                .anyRequest().authenticated();
-        httpSecurity
-                .csrf().disable()
-                .cors().disable(); */
-
-        //httpSecurity
-                // ...
-             //   .cors(cors -> cors.disable())
-               // .csrf(csrf -> csrf.disable());
 
         httpSecurity.authorizeRequests()
                 .requestMatchers("/save", "/get").permitAll()
